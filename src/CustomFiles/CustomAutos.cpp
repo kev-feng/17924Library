@@ -554,23 +554,52 @@ void RightAuto(){
 
 
 
-void drivestraight (float dist, float speedmv, float kp, float ki, float kd){
+void drivestraight (float dist, float heading, float speedmv, float d_kp, float d_ki, float d_kd, float t_kp, float t_ki, float t_kd){
 
 
-	float tickRev = 2.75 / 360;
+	float drivePID;
+	float turnPID;
+	float sumPID;
+	float tickRev = (2.75 *3.14) / 360;
 	float in_ticks = dist / tickRev;
-	float target = vert_Track.get_position()+in_ticks;
+	float dist_target = vert_Track.get_position()+in_ticks;
+	float turn_target = heading;
 
-	float error = target - vert_Track.get_position();
+	float disterror = dist_target - vert_Track.get_position();
+	float turnerror = turn_target - inertial.get_heading();
 
 
 
-	while (target > vert_Track.get_position()){
+	while (dist_target > vert_Track.get_position()){
+
+		drivePID = (disterror) * d_kp;
+		turnPID = turnerror * t_kp;
+
+		drivePID = drivePID * 0.75;
+		turnPID = turnPID * 0.75;
+
+		if (drivePID > speedmv){
+			drivePID = speedmv;
+		}
+		
+		sumPID = drivePID + turnPID;
 
 		
 
-		error = target - vert_Track.get_position();
+		left_mg.move_voltage(sumPID);
+		right_mg.move_voltage(sumPID);
+
+		
+
+		disterror = dist_target - vert_Track.get_position();
+		turnerror = turn_target - inertial.get_heading();
+
+
 	}
+
+	left_mg.move_voltage(0);
+	right_mg.move_voltage(0);
+	
 
 
 

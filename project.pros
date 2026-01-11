@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Jan4Backup",
+    "project_name": "Jan11Backup",
     "target": "v5",
     "templates": {
       "EZ-Template": {
@@ -424,7 +424,7 @@
       }
     },
     "upload_options": {
-      "description": "17924M",
+      "description": "17924",
       "slot": 8
     },
     "use_early_access": false

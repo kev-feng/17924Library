@@ -153,7 +153,15 @@ void autonomous() {
 
 
 
-  RightAuto();
+  // RightAuto();
+  //drivestraight(24, 0, 12000, 0.1, 0, 0, 0.1, 0, 0);
+  left_mg.move_voltage(12000);
+  right_mg.move_voltage(12000);
+  pros::delay(1500);
+
+  left_mg.move_voltage(0);
+  right_mg.move_voltage(0);
+
   //JoyceRight();
   //JoyceLeft();
   // JoyceSkills();
@@ -282,9 +290,9 @@ void opcontrol() {
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
 
-    //SingleArcade_drive(2.2, 4.5, 1.0);
+    SingleArcade_drive(2.2, 4.5, 1.0);
     
-    SplitArcade_drive(2.2, 4.5, 1.0);
+    //SplitArcade_drive(2.2, 4.5, 1.0);
     scoring();
     pneumatics();
     

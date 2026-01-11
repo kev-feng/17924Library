@@ -18,4 +18,4 @@ void RightAuto();
 
 double PID(float kp, float ki, float kd);
 
-void drivestraight (float dist, float speedmv, float kp, float ki, float kd);
+void drivestraight (float dist, float heading, float speedmv, float d_kp, float d_ki, float d_kd, float t_kp, float t_ki, float t_kd);
