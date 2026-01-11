@@ -609,6 +609,22 @@ void drivestraight (float dist, float heading, float speedmv, float d_kp, float 
 }
 
 
+
+void turntoangle(float angle, float speedmv, float t_kp, float t_ki, float t_kd){
+	float turn_target = chassis.imu.get_heading() + angle;
+	float turnerror = turn_target - chassis.imu.get_heading();
+	int tick = 0;
+	double preverror = 0;
+
+	while (turn_target > angle){
+
+		turnerror = turn_target - chassis.imu.get_heading();
+		float turnPID = turnerror * t_kp + (tick * turnerror)* t_ki + (preverror - ) ;
+		tick = tick + 1;
+		preverror = turnerror;
+		}
+}
+
 double PID(float kp, float ki, float kd){
 
 	double FinalPID;
