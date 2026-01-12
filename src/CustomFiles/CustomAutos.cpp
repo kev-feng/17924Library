@@ -624,6 +624,9 @@ void turntoangle(float angle, float speedmv, float t_kp, float t_ki, float t_kd)
 		preverror = turnerror;
 
 		
+
+		left_mg.move_voltage(turnPID);
+		right_mg.move_voltage(turnPID);
 		}
 }
 
