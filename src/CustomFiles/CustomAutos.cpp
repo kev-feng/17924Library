@@ -619,9 +619,11 @@ void turntoangle(float angle, float speedmv, float t_kp, float t_ki, float t_kd)
 	while (turn_target > angle){
 
 		turnerror = turn_target - chassis.imu.get_heading();
-		float turnPID = turnerror * t_kp + (tick * turnerror)* t_ki + (preverror - ) ;
+		float turnPID = turnerror * t_kp + (tick * turnerror)* t_ki - (preverror - turnerror) * t_kd ;
 		tick = tick + 1;
 		preverror = turnerror;
+
+		
 		}
 }
 
