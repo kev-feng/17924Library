@@ -555,6 +555,12 @@ void RightAuto(){
 }
 
 
+float getShortestTurnError(float target, float current) { //to normalize error
+    float error = target - current;
+    if (error > 180) error -= 360;
+    else if (error < -180) error += 360;
+    return error;
+}
 
 
 void drivestraight (float dist, float heading, float speedmv, float d_kp, float d_ki, float d_kd, float t_kp, float t_ki, float t_kd){
@@ -565,22 +571,22 @@ void drivestraight (float dist, float heading, float speedmv, float d_kp, float 
 
 	float drivePID;
 	float turnPID;
-	float sumPID;
-	float tickRev = (2.75 *3.14) / 360; //0.02398611111
-	float in_ticks = (dist / tickRev)*100;
-	float dist_target = vert_Track.get_position()+in_ticks;
+	float leftPID;
+	float rightPID;
+    float inchesPerDegree = (2.75 * 3.14159) / 360.0; 
+	float target_ticks = (dist / inchesPerDegree) * 100; 
 	float turn_target = heading;
 
-	float disterror = dist_target - vert_Track.get_position();
-	float turnerror = turn_target - inertial.get_heading();
+    float dist_error = target_ticks - vert_Track.get_position();
+    float turn_error = getShortestTurnError(heading, inertial.get_heading());
 
 
 
-	while (dist_target > vert_Track.get_position()){
+	while (fabs(dist_error) > 10){
 
 
-		drivePID = (disterror) * d_kp;
-		turnPID = turnerror * t_kp;
+		drivePID = (dist_error) * d_kp;
+		turnPID = turn_error * t_kp;
 
 		drivePID = drivePID * 0.75;
 		turnPID = turnPID * 0.75;
@@ -588,18 +594,24 @@ void drivestraight (float dist, float heading, float speedmv, float d_kp, float 
 		if (drivePID > speedmv){
 			drivePID = speedmv;
 		}
+		if (turnPID > speedmv){
+			turnPID = speedmv;
+		}
 		
-		sumPID = drivePID + turnPID;
+		rightPID = drivePID + turnPID;
+		leftPID = drivePID - turnPID; 
 
 		
 
-		left_mg.move_voltage(sumPID);
-		right_mg.move_voltage(sumPID);
+		left_mg.move_voltage(leftPID);
+		right_mg.move_voltage(rightPID);
 
 		
 
-		disterror = dist_target - vert_Track.get_position();
-		turnerror = turn_target - inertial.get_heading();
+    	dist_error = target_ticks - vert_Track.get_position();
+    	turn_error = getShortestTurnError(heading, inertial.get_heading());
+		
+		pros::delay(10);
 
 		
 	}
@@ -611,8 +623,6 @@ void drivestraight (float dist, float heading, float speedmv, float d_kp, float 
 
 
 }
-
-
 
 void turntoangle(float angle, float speedmv, float t_kp, float t_ki, float t_kd){
 	float turn_target = chassis.imu.get_heading() + angle;
