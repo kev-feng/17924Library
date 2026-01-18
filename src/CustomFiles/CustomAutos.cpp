@@ -560,11 +560,14 @@ void RightAuto(){
 void drivestraight (float dist, float heading, float speedmv, float d_kp, float d_ki, float d_kd, float t_kp, float t_ki, float t_kd){
 
 
+	vert_Track.reset_position();
+	
+
 	float drivePID;
 	float turnPID;
 	float sumPID;
-	float tickRev = (2.75 *3.14) / 360;
-	float in_ticks = dist / tickRev;
+	float tickRev = (2.75 *3.14) / 360; //0.02398611111
+	float in_ticks = (dist / tickRev)*100;
 	float dist_target = vert_Track.get_position()+in_ticks;
 	float turn_target = heading;
 
@@ -574,6 +577,7 @@ void drivestraight (float dist, float heading, float speedmv, float d_kp, float 
 
 
 	while (dist_target > vert_Track.get_position()){
+
 
 		drivePID = (disterror) * d_kp;
 		turnPID = turnerror * t_kp;
@@ -597,7 +601,7 @@ void drivestraight (float dist, float heading, float speedmv, float d_kp, float 
 		disterror = dist_target - vert_Track.get_position();
 		turnerror = turn_target - inertial.get_heading();
 
-
+		
 	}
 
 	left_mg.move_voltage(0);

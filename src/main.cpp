@@ -32,7 +32,7 @@ ez::Drive chassis(
 // - `2.75` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
 // ez::tracking_wheel horiz_tracker(8, 2.75, 4.0);  // This tracking wheel is perpendicular to the drive wheels
- ez::tracking_wheel vert_tracker(-17, 2.77, -0.6);   // This tracking wheel is parallel to the drive wheels
+ ez::tracking_wheel vert_tracker(-17, 2.75, -0.6);   // This tracking wheel is parallel to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -155,12 +155,10 @@ void autonomous() {
 
   // RightAuto();
   //drivestraight(24, 0, 12000, 0.1, 0, 0, 0.1, 0, 0);
-  left_mg.move_voltage(12000);
-  right_mg.move_voltage(12000);
-  pros::delay(1500);
 
-  left_mg.move_voltage(0);
-  right_mg.move_voltage(0);
+  //Intake.move_voltage(12000);
+  //Top_Scorer.move_voltage(12000);
+  //pros::delay(1500);
 
   //JoyceRight();
   //JoyceLeft();
