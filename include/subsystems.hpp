@@ -16,7 +16,7 @@ inline pros::MotorGroup right_mg({8, 18, 20}, pros::MotorGears::blue);  // Creat
 
 
 inline pros::Motor Top_Scorer(19);
-inline pros::Motor Intake(12);
+inline pros::Motor Intake(-12);
 
 inline pros::ADIDigitalOut rake_piston('B');
 inline pros::ADIDigitalOut door_piston('G');
@@ -25,4 +25,5 @@ inline pros::Rotation vert_Track(14);
 inline pros::IMU inertial(13);
 
 // inline pros::Motor intake(1);
+
 // inline pros::adi::DigitalIn limit_switch('A');
